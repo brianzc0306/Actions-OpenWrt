@@ -28,13 +28,17 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
-jobs:
-  build:
-    runs-on: ubuntu-22.04
-
-    steps:
+steps:
     - name: Checkout
       uses: actions/checkout@main
+
+    - name: Cache dependencies
+      uses: actions/cache@main
+      with:
+        path: |
+          /workdir/ccache
+          openwrt/dl
+        key: ${{ runner.os }}-${{ hashFiles('$FEEDS_CONF', '$CONFIG_FILE') }}
 
     - name: Initialization environment
       env:
