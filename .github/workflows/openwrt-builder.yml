@@ -28,17 +28,22 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
-steps:
+FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: .config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: diy-part2.sh
+  UPLOAD_BIN_DIR: false
+  UPLOAD_FIRMWARE: true
+  UPLOAD_RELEASE: true
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
     - name: Checkout
       uses: actions/checkout@main
-
-    - name: Cache dependencies
-      uses: actions/cache@main
-      with:
-        path: |
-          /workdir/ccache
-          openwrt/dl
-        key: ${{ runner.os }}-${{ hashFiles('$FEEDS_CONF', '$CONFIG_FILE') }}
 
     - name: Initialization environment
       env:
